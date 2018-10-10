@@ -1,0 +1,26 @@
+const {mongoose} = require('./db/mongoose');
+var express = require('express');
+var bodyParser = require('body-parser');
+var {Todo} = require('./models/todo');
+var {User} = require('./models/todo');
+
+var app = express();
+
+app.use(bodyParser.json());
+
+app.post('/todos',(req,res) => {
+    console.log(req.body);
+    var todo = new Todo({
+        text : req.body.text
+    });
+    todo.save().then( (docs) => {
+        res.send(docs);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
+app.listen(3000, () => {
+    console.log('Server up and running on Port 3000');
+});
+
